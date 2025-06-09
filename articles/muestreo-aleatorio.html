@@ -3,46 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Muestreo Aleatorio - Wiki de Muestreo</title>
+    <title>Muestreo Aleatorio - Wiki de Muestreo Documental</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="c.css">
 </head>
 <body>
-    <header>
-        <h1>Muestreo Aleatorio Simple</h1>
-        <nav>
-            <ul>
-                <li><a href="../index.html">Inicio</a></li>
-                <li><a href="../about.html">Acerca de</a></li>
-                <li><a href="../contact.html">Contacto</a></li>
-            </ul>
-        </nav>
-    </header>
-    
-    <main>
-        <article>
-            <h2>Definición</h2>
-            <p>El muestreo aleatorio simple es una técnica donde cada elemento de la población tiene la misma probabilidad de ser seleccionado.</p>
-            
-            <h2>Procedimiento</h2>
-            <ol>
-                <li>Definir la población documental</li>
-                <li>Asignar un identificador a cada documento</li>
-                <li>Seleccionar aleatoriamente los documentos de la muestra</li>
-            </ol>
-            
-            <h2>Ventajas</h2>
-            <ul>
-                <li>Fácil de implementar</li>
-                <li>Requiere poco conocimiento previo de la población</li>
-                <li>Minimiza el sesgo de selección</li>
-            </ul>
-        </article>
-    </main>
-    
-    <footer>
-        <p>© 2023 Wiki de Muestreo Documental</p>
+    <div class="wrapper">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+                <h1>Muestreo Doc</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="../index.html"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="../about.html"><i class="fas fa-info-circle"></i> Acerca de</a></li>
+                    <li><a href="../contact.html"><i class="fas fa-envelope"></i> Contacto</a></li>
+                </ul>
+                
+                <div class="sidebar-section">
+                    <h3>Técnicas</h3>
+                    <ul>
+                        <li class="active"><a href="muestreo-aleatorio.html"><i class="fas fa-random"></i> Aleatorio</a></li>
+                        <li><a href="muestreo-estratificado.html"><i class="fas fa-layer-group"></i> Estratificado</a></li>
+                        <li><a href="muestreo-sistematico.html"><i class="fas fa-list-ol"></i> Sistemático</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="article-container">
+                <header class="article-header">
+                    <h1>Muestreo Aleatorio Simple</h1>
+                    <div class="article-meta">
+                        <span class="author"><i class="fas fa-user"></i> Por Equipo de Investigación</span>
+                        <span class="date"><i class="fas fa-calendar-alt"></i> Actualizado: 15/06/2023</span>
+                        <span class="reading-time"><i class="fas fa-clock"></i> 4 min de lectura</span>
+                    </div>
+                </header>
+                
+                <div class="article-image">
+                    <img src="https://via.placeholder.com/800x400/3498db/ffffff?text=Muestreo+Aleatorio" alt="Diagrama de muestreo aleatorio">
+                    <p class="image-caption">Representación gráfica del muestreo aleatorio simple</p>
+                </div>
+                
+                <article class="article-content">
+                    <h2>Definición</h2>
+                    <p>El muestreo aleatorio simple es una técnica fundamental en investigación documental donde cada elemento de la población tiene exactamente la misma probabilidad de ser seleccionado para formar parte de la muestra. Este método es considerado el más básico y puro de las técnicas de muestreo probabilístico.</p>
+                    
+                    <h2>Procedimiento</h2>
+                    <ol>
+                        <li>
+                            <strong>Definir la población documental:</strong><br>
+                            Identificar claramente el conjunto completo de documentos que constituyen la población de estudio.
+                        </li>
+                        <li>
+                            <strong>Asignar un identificador único:</strong><br>
+                            Numerar o codificar cada documento de la población con un identificador exclusivo.
+                        </li>
+                        <li>
+                            <strong>Selección aleatoria:</strong><br>
+                            Utilizar un método aleatorio (tablas de números aleatorios, software especializado) para seleccionar los documentos que formarán la muestra.
+                        </li>
+                        <li>
+                            <strong>Verificación de la muestra:</strong><br>
+                            Asegurarse de que la muestra seleccionada cumple con los criterios establecidos y es representativa.
+                        </li>
+                    </ol>
+                    
+                    <h2>Ventajas</h2>
+                    <ul>
+                        <li>
+                            <strong>Simplicidad:</strong> Fácil de entender e implementar, incluso para investigadores noveles.
+                        </li>
+                        <li>
+                            <strong>Minimización del sesgo:</strong> Al garantizar que cada documento tiene igual oportunidad de selección, se reduce significativamente el sesgo.
+                        </li>
+                        <li>
+                            <strong>Requisitos mínimos:</strong> No requiere conocimiento previo detallado de la población documental.
+                        </li>
+                        <li>
+                            <strong>Fundamento estadístico:</strong> Permite el cálculo preciso de errores muestrales y niveles de confianza.
+                        </li>
+                    </ul>
+                    
+                    <h2>Aplicaciones prácticas</h2>
+                    <p>El muestreo aleatorio simple es particularmente útil en contextos donde:</p>
+                    <ul>
+                        <li>La población documental es homogénea en sus características</li>
+                        <li>No se dispone de información previa para estratificar</li>
+                        <li>Se requiere un método rápido y sencillo de muestreo</li>
+                        <li>El tamaño de la población no es excesivamente grande</li>
+                    </ul>
+                    
+                    <div class="article-footer">
+                        <div class="related-articles">
+                            <h3><i class="fas fa-bookmark"></i> Artículos relacionados</h3>
+                            <ul>
+                                <li><a href="muestreo-estratificado.html"><i class="fas fa-chevron-right"></i> Muestreo Estratificado: Cuando la población es heterogénea</a></li>
+                                <li><a href="muestreo-sistematico.html"><i class="fas fa-chevron-right"></i> Muestreo Sistemático: Un enfoque ordenado</a></li>
+                                <li><a href="#"><i class="fas fa-chevron-right"></i> Cómo determinar el tamaño de muestra adecuado</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </main>
+    </div>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Wiki Muestreo Doc</h3>
+                <p>Recursos educativos sobre técnicas de muestreo documental para investigadores.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Enlaces Rápidos</h3>
+                <ul>
+                    <li><a href="../index.html">Inicio</a></li>
+                    <li><a href="../about.html">Acerca de</a></li>
+                    <li><a href="../contact.html">Contacto</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <p><i class="fas fa-envelope"></i> info@muestreodoc.com</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Wiki de Muestreo Documental. Todos los derechos reservados.</p>
+        </div>
     </footer>
-    
+
     <script src="../script.js"></script>
 </body>
 </html>
