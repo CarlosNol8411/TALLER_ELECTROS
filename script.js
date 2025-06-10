@@ -41,18 +41,40 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Search functionality
-    const searchBox = document.querySelector('.search-box');
-    if (searchBox) {
-        searchBox.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const query = this.querySelector('input').value.trim();
-            if (query.length > 2) {
-                alert(`Buscarías: ${query}`);
-                // Implement actual search functionality here
+    // Search functionality: filtrar documentos en sidebar
+    const input = document.querySelector('.search-box input');
+    const button = document.querySelector('.search-box button');
+    const listItems = document.querySelectorAll('.sidebar-section ul li');
+
+    function filterDocuments() {
+        const filter = input.value.toLowerCase();
+        let visibleCount = 0;
+        listItems.forEach(li => {
+            const text = li.textContent.toLowerCase();
+            const href = li.querySelector('a').getAttribute('href').toLowerCase();
+            if (text.includes(filter) || href.includes(filter)) {
+                li.style.display = '';
+                visibleCount++;
+            } else {
+                li.style.display = 'none';
             }
         });
+        if (visibleCount === 0) {
+            if (!document.querySelector('.no-results')) {
+                const ul = document.querySelector('.sidebar-section ul');
+                const msg = document.createElement('li');
+                msg.textContent = 'No se encontraron documentos.';
+                msg.classList.add('no-results');
+                ul.appendChild(msg);
+            }
+        } else {
+            const msg = document.querySelector('.no-results');
+            if (msg) msg.remove();
+        }
     }
+
+    button.addEventListener('click', filterDocuments);
+    input.addEventListener('input', filterDocuments);
     
     // Card hover effects
     const cards = document.querySelectorAll('.article-card');
