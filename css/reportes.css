@@ -1,0 +1,271 @@
+/* Estilos específicos para reportes */
+
+.report-filters {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    background: white;
+    border-radius: var(--border-radius-lg);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 2rem;
+    align-items: end;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.filter-group label {
+    font-weight: 500;
+    color: var(--dark-color);
+}
+
+#generateReport, #exportReport {
+    height: fit-content;
+}
+
+.btn-secondary {
+    background: var(--gray-medium);
+}
+
+.btn-secondary:hover {
+    background: var(--dark-color);
+}
+
+.report-container {
+    background: white;
+    border-radius: var(--border-radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+}
+
+.report-header {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--gray-light);
+    padding-bottom: 1rem;
+}
+
+.report-header h2 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.report-meta {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.9rem;
+    color: var(--gray-medium);
+}
+
+.metrics-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.metric-card {
+    background: var(--light-color);
+    border-radius: var(--border-radius);
+    padding: 1rem;
+    text-align: center;
+    border-top: 4px solid var(--primary-color);
+}
+
+.metric-card h3 {
+    font-size: 1rem;
+    color: var(--secondary-color);
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.metric-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.unit-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--gray-light);
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.unit-tabs .tab {
+    padding: 0.75rem 1.5rem;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--gray-medium);
+    border-bottom: 3px solid transparent;
+    transition: all var(--transition-fast);
+}
+
+.unit-tabs .tab.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--accent-color);
+}
+
+.unit-tabs .tab:hover:not(.active) {
+    color: var(--dark-color);
+    border-bottom-color: var(--gray-medium);
+}
+
+.unit-content {
+    display: none;
+    margin-bottom: 2rem;
+}
+
+.unit-content.active {
+    display: block;
+    animation: fadeIn 0.5s ease;
+}
+
+.unit-metrics {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.unit-metric {
+    background: var(--light-color);
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.unit-metric .metric-label {
+    font-size: 0.8rem;
+    color: var(--gray-medium);
+}
+
+.unit-metric .metric-value {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.grades-table {
+    overflow-x: auto;
+}
+
+.grades-table table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.grades-table th {
+    background-color: var(--primary-color);
+    color: white;
+    text-align: left;
+    padding: 1rem;
+    font-weight: 500;
+}
+
+.grades-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--gray-light);
+    vertical-align: middle;
+}
+
+.grades-table tr:hover {
+    background-color: rgba(67, 97, 238, 0.05);
+}
+
+.grades-table tr.failed {
+    background-color: rgba(220, 53, 69, 0.05);
+}
+
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background-color: var(--gray-light);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: var(--success-color);
+    border-radius: 4px;
+}
+
+.grades-table tr.failed .progress-fill {
+    background-color: var(--accent-color);
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.35rem 0.75rem;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.badge-success {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.badge-danger {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+.charts-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.chart-container {
+    background: var(--light-color);
+    border-radius: var(--border-radius-lg);
+    padding: 1.5rem;
+}
+
+.chart-container h3 {
+    margin-top: 0;
+    color: var(--secondary-color);
+    text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .charts-section {
+        grid-template-columns: 1fr;
+    }
+    
+    .unit-metrics {
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .report-filters {
+        grid-template-columns: 1fr;
+    }
+    
+    .metrics-summary {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+.form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid var(--gray-light);
+    border-radius: var(--border-radius);
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color var(--transition-fast);
+}

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reportes Académicos | Control Escolar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/reportes.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Control Escolar
+            </div>
+            <nav class="header-nav">
+                <a href="ControlEscolar.html"><i class="fas fa-home"></i> Inicio</a>
+                <a href="Alumnos.html"><i class="fas fa-user-graduate"></i> Alumnos</a>
+                <a href="Docente.html"><i class="fas fa-chalkboard-teacher"></i> Docentes</a>
+                <a href="materias.html"><i class="fas fa-book"></i> Materias</a>
+                <a href="asignacion.html"><i class="fas fa-tasks"></i> Asignación</a>
+                <a href="reportes.html" class="active"><i class="fas fa-chart-bar"></i> Reportes</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>
+                <i class="fas fa-chart-line"></i>
+                Reportes Académicos
+            </h1>
+            <p>Análisis del desempeño por materia y unidad</p>
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="report-filters">
+            <div class="filter-group">
+                <label for="careerFilter">Carrera:</label>
+                <select id="careerFilter" class="form-control">
+                    <option value="">Todas las carreras</option>
+                    <option value="ISC" selected>Ing. Sistemas Computacionales</option>
+                    <option value="II">Ing. Industrial</option>
+                    <option value="IE">Ing. Electrónica</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="subjectFilter">Materia:</label>
+                <select id="subjectFilter" class="form-control">
+                    <option value="">Seleccione una materia</option>
+                    <option value="MAT-101">Matemáticas Avanzadas</option>
+                    <option value="TALLER-SO">Taller de Sistemas Operativos</option>
+                    <option value="ADMON-BD">Administración de Bases de Datos</option>
+                    <option value="LENG-INTER">Lenguajes de Interfaz</option>
+                    <option value="ING-SOFT">Ingeniería de Software</option>
+                    <option value="LENG-AUTO">Lenguajes y Autómatas I</option>
+                    <option value="REDES">Redes de Computadoras</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label for="semesterFilter">Semestre:</label>
+                <select id="semesterFilter" class="form-control">
+                    <option value="">Todos</option>
+                    <option value="1">1° Semestre</option>
+                    <option value="2">2° Semestre</option>
+                    <option value="3">3° Semestre</option>
+                    <option value="4">4° Semestre</option>
+                    <option value="5">5° Semestre</option>
+                    <option value="6" selected>6° Semestre</option>
+                </select>
+            </div>
+            
+            <button id="generateReport" class="btn">
+                <i class="fas fa-file-alt"></i> Generar Reporte
+            </button>
+            
+            <button id="exportReport" class="btn btn-secondary">
+                <i class="fas fa-file-excel"></i> Exportar a Excel
+            </button>
+        </div>
+        
+        <div class="report-container">
+            <div class="report-header">
+                <h2 id="reportTitle">Reporte de Desempeño Académico</h2>
+                <div class="report-meta">
+                    <span id="reportSubject">Materia: </span>
+                    <span id="reportSemester">Semestre: </span>
+                    <span id="reportDate">Generado: </span>
+                </div>
+            </div>
+            
+            <div class="metrics-summary">
+                <div class="metric-card">
+                    <h3>No. Alumnos</h3>
+                    <div class="metric-value" id="totalStudents">16</div>
+                </div>
+                
+                <div class="metric-card">
+                    <h3>No. Reprobados</h3>
+                    <div class="metric-value" id="failedStudents">2</div>
+                </div>
+                
+                <div class="metric-card">
+                    <h3>% Reprobación</h3>
+                    <div class="metric-value" id="failureRate">12.5%</div>
+                </div>
+                
+                <div class="metric-card">
+                    <h3>Promedio General</h3>
+                    <div class="metric-value" id="averageGrade">88.7</div>
+                </div>
+                
+                <div class="metric-card">
+                    <h3>Deserción</h3>
+                    <div class="metric-value" id="dropoutRate">0%</div>
+                </div>
+            </div>
+            
+            <div class="unit-tabs">
+                <div class="tab active" data-unit="I">Unidad I</div>
+                <div class="tab" data-unit="II">Unidad II</div>
+                <div class="tab" data-unit="III">Unidad III</div>
+                <div class="tab" data-unit="IV">Unidad IV</div>
+                <div class="tab" data-unit="V">Unidad V</div>
+                <div class="tab" data-unit="VI">Unidad VI</div>
+            </div>
+            
+            <div class="unit-content active" data-unit="I">
+                <div class="unit-metrics">
+                    <div class="unit-metric">
+                        <span class="metric-label">No. Alumnos:</span>
+                        <span class="metric-value">16</span>
+                    </div>
+                    <div class="unit-metric">
+                        <span class="metric-label">No. R:</span>
+                        <span class="metric-value">1</span>
+                    </div>
+                    <div class="unit-metric">
+                        <span class="metric-label">% R:</span>
+                        <span class="metric-value">6.25%</span>
+                    </div>
+                    <div class="unit-metric">
+                        <span class="metric-label">PROM:</span>
+                        <span class="metric-value">92.4</span>
+                    </div>
+                    <div class="unit-metric">
+                        <span class="metric-label">DESERCION:</span>
+                        <span class="metric-value">0%</span>
+                    </div>
+                </div>
+                
+                <div class="grades-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No. Control</th>
+                                <th>Alumno</th>
+                                <th>Calificación</th>
+                                <th>Estatus</th>
+                                <th>Rendimiento</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Z21520098</td>
+                                <td>ALMARAZ GONZALEZ  CAROLINA</td>
+                                <td>97</td>
+                                <td><span class="badge badge-success">Aprobado</span></td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 97%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Z24024009</td>
+                                <td>ARTEAGA ZAPATA DIEGO</td>
+                                <td>93</td>
+                                <td><span class="badge badge-success">Aprobado</span></td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 93%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Z20020009</td>
+                                <td>BUGARIN MONTES AHIRAM</td>
+                                <td>97</td>
+                                <td><span class="badge badge-success">Aprobado</span></td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 97%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Más filas de alumnos -->
+                            <tr class="failed">
+                                <td>Z20050102</td>
+                                <td>HERNANDEZ PEREZ JUAN</td>
+                                <td>87</td>
+                                <td><span class="badge badge-danger">Reprobado</span></td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 87%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Contenido de otras unidades (similar al de la Unidad I) -->
+            <div class="unit-content" data-unit="II">
+                <div class="unit-metrics">
+                    <div class="unit-metric">
+                        <span class="metric-label">No. Alumnos:</span>
+                        <span class="metric-value">16</span>
+                    </div>
+                    <div class="unit-metric">
+                        <span class="metric-label">No. R:</span>
+                        <span class="metric-value">1</span>
+                    </div>
+                    <div class="unit-metric">
+                        <span class="metric-label">% R:</span>
+                        <span class="metric-value">6.25%</span>
+                    </div>
+                    <div class="unit-metric">
+                        <span class="metric-label">PROM:</span>
+                        <span class="metric-value">92.4</span>
+                    </div>
+                    <div class="unit-metric">
+                        <span class="metric-label">DESERCION:</span>
+                        <span class="metric-value">0%</span>
+                    </div>
+                </div>
+                
+                <div class="grades-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No. Control</th>
+                                <th>Alumno</th>
+                                <th>Calificación</th>
+                                <th>Estatus</th>
+                                <th>Rendimiento</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Z21520098</td>
+                                <td>ALMARAZ GONZALEZ  CAROLINA</td>
+                                <td>97</td>
+                                <td><span class="badge badge-success">Aprobado</span></td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 97%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Z24024009</td>
+                                <td>ARTEAGA ZAPATA DIEGO</td>
+                                <td>93</td>
+                                <td><span class="badge badge-success">Aprobado</span></td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 93%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Z20020009</td>
+                                <td>BUGARIN MONTES AHIRAM</td>
+                                <td>97</td>
+                                <td><span class="badge badge-success">Aprobado</span></td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 97%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <!-- Más filas de alumnos -->
+                            <tr class="failed">
+                                <td>Z20050102</td>
+                                <td>HERNANDEZ PEREZ JUAN</td>
+                                <td>87</td>
+                                <td><span class="badge badge-danger">Reprobado</span></td>
+                                <td>
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 87%"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="charts-section">
+                <div class="chart-container">
+                    <h3>Evolución de Promedios por Unidad</h3>
+                    <canvas id="unitTrendChart"></canvas>
+                </div>
+                
+                <div class="chart-container">
+                    <h3>Distribución de Calificaciones</h3>
+                    <canvas id="gradesDistributionChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Sistema de Control Escolar &copy; <span id="current-year">2023</span> | Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/reportes.js"></script>
+</body>
+</html>
