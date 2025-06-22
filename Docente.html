@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Docentes | Control Escolar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/docentes.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Control Escolar
+            </div>
+            <nav class="header-nav">
+                <a href="ControlEscolar.html"><i class="fas fa-home"></i> Inicio</a>
+                <a href="Alumnos.html"><i class="fas fa-user-graduate"></i> Alumnos</a>
+                <a href="Docente.html" class="active"><i class="fas fa-chalkboard-teacher"></i> Docentes</a>
+                <a href="materias.html"><i class="fas fa-book"></i> Materias</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>
+                <i class="fas fa-chalkboard-teacher"></i>
+                Registro de Docentes
+            </h1>
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="tabs">
+            <div class="tab active" data-tab="register">Registrar Docente</div>
+            <div class="tab" data-tab="list">Lista de Docentes</div>
+        </div>
+
+        <!-- Formulario de Registro -->
+        <div id="register" class="tab-content active">
+            <div class="form-container">
+                <h2 class="form-title">
+                    <i class="fas fa-user-plus"></i>
+                    Datos del Docente
+                </h2>
+                
+                <form id="teacherForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="controlNumber" class="form-label">Número de Control</label>
+                            <input type="text" id="controlNumber" class="form-control" placeholder="Ej. D19181000" required>
+                            <small class="form-text">El número de control para docentes debe comenzar con 'D'</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="fullName" class="form-label">Nombre Completo</label>
+                            <input type="text" id="fullName" class="form-control" placeholder="Ej. María García López" required>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-block" style="margin-top: 1.5rem;">
+                        <i class="fas fa-save"></i>
+                        Registrar Docente
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Lista de Docentes -->
+        <div id="list" class="tab-content">
+            <div class="table-container">
+                <h2 class="form-title">
+                    <i class="fas fa-list"></i>
+                    Docentes Registrados
+                </h2>
+                
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>N° Control</th>
+                                <th>Nombre</th>
+                                <th>Materias Asignadas</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Datos de ejemplo -->
+                            <tr>
+                                <td>D19181001</td>
+                                <td>García López María</td>
+                                <td>Matemáticas, Física</td>
+                                <td><span class="badge badge-success">Activo</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="btn-icon edit" title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn-icon delete" title="Eliminar">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <button class="btn-icon assign" title="Asignar Materias">
+                                            <i class="fas fa-book"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>D19181002</td>
+                                <td>Rodríguez Sánchez Carlos</td>
+                                <td>Programación, Bases de Datos</td>
+                                <td><span class="badge">Inactivo</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="btn-icon edit" title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn-icon delete" title="Eliminar">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <button class="btn-icon assign" title="Asignar Materias">
+                                            <i class="fas fa-book"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Sistema de Control Escolar &copy; <span id="current-year">2023</span> | Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/docentes.js"></script>
+</body>
+</html>

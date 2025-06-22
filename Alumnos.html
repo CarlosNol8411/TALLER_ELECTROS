@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Alumnos | Control Escolar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/alumnos.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Control Escolar
+            </div>
+            <nav class="header-nav">
+                <a href="ControlEscolar.html"><i class="fas fa-home"></i> Inicio</a>
+                <a href="Alumnos.html" class="active"><i class="fas fa-user-graduate"></i> Alumnos</a>
+                <a href="Docente.html"><i class="fas fa-chalkboard-teacher"></i> Docentes</a>
+                <a href="materias.html"><i class="fas fa-book"></i> Materias</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>
+                <i class="fas fa-user-graduate"></i>
+                Registro de Alumnos
+            </h1>
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="tabs">
+            <div class="tab active" data-tab="register">Registrar Alumno</div>
+            <div class="tab" data-tab="list">Lista de Alumnos</div>
+        </div>
+
+        <!-- Formulario de Registro -->
+        <div id="register" class="tab-content active">
+            <div class="form-container">
+                <h2 class="form-title">
+                    <i class="fas fa-user-plus"></i>
+                    Datos del Alumno
+                </h2>
+                
+                <form id="studentForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="controlNumber" class="form-label">Número de Control</label>
+                            <input type="text" id="controlNumber" class="form-control" placeholder="Ej. 19181000" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="firstName" class="form-label">Nombre(s)</label>
+                            <input type="text" id="firstName" class="form-control" placeholder="Ej. Juan" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="lastName" class="form-label">Apellido Paterno</label>
+                            <input type="text" id="lastName" class="form-control" placeholder="Ej. Pérez" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="mothersLastName" class="form-label">Apellido Materno</label>
+                            <input type="text" id="mothersLastName" class="form-control" placeholder="Ej. López">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="semester" class="form-label">Semestre</label>
+                            <select id="semester" class="form-control" required>
+                                <option value="">Seleccione...</option>
+                                <option value="1">1° Semestre</option>
+                                <option value="2">2° Semestre</option>
+                                <option value="3">3° Semestre</option>
+                                <option value="4">4° Semestre</option>
+                                <option value="5">5° Semestre</option>
+                                <option value="6">6° Semestre</option>
+                                <option value="7">7° Semestre</option>
+                                <option value="8">8° Semestre</option>
+                                <option value="9">9° Semestre</option>
+                                <option value="10">10° Semestre</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="career" class="form-label">Carrera</label>
+                            <select id="career" class="form-control" required>
+                                <option value="">Seleccione...</option>
+                                <option value="ISC">Ingeniería en Sistemas Computacionales</option>
+                                <option value="II">Ingeniería Industrial</option>
+                                <option value="IE">Ingeniería Electrónica</option>
+                                <option value="IM">Ingeniería Mecánica</option>
+                                <option value="IC">Ingeniería Civil</option>
+                                <option value="LA">Licenciatura en Administración</option>
+                                <option value="LC">Licenciatura en Contaduría</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-block" style="margin-top: 1.5rem;">
+                        <i class="fas fa-save"></i>
+                        Registrar Alumno
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Lista de Alumnos -->
+        <div id="list" class="tab-content">
+            <div class="table-container">
+                <h2 class="form-title">
+                    <i class="fas fa-list"></i>
+                    Alumnos Registrados
+                </h2>
+                
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>N° Control</th>
+                                <th>Nombre Completo</th>
+                                <th>Semestre</th>
+                                <th>Carrera</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Datos de ejemplo -->
+                            <tr>
+                                <td>19181001</td>
+                                <td>Pérez López Juan</td>
+                                <td>5° Semestre</td>
+                                <td>Ing. Sistemas Computacionales</td>
+                                <td><span class="badge badge-success">Activo</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="btn-icon edit" title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn-icon delete" title="Eliminar">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <button class="btn-icon" title="Asignar Materias">
+                                            <i class="fas fa-book"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>19181002</td>
+                                <td>García Martínez María</td>
+                                <td>3° Semestre</td>
+                                <td>Ing. Industrial</td>
+                                <td><span class="badge badge-success">Activo</span></td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="btn-icon edit" title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn-icon delete" title="Eliminar">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <button class="btn-icon" title="Asignar Materias">
+                                            <i class="fas fa-book"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Sistema de Control Escolar &copy; 2023 | Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/alumnos.js"></script>
+</body>
+</html>

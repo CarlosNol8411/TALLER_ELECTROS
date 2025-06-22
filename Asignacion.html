@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asignación de Materias | Control Escolar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/asignacion.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Control Escolar
+            </div>
+            <nav class="header-nav">
+                <a href="index.html"><i class="fas fa-home"></i> Inicio</a>
+                <a href="alumnos.html"><i class="fas fa-user-graduate"></i> Alumnos</a>
+                <a href="docentes.html"><i class="fas fa-chalkboard-teacher"></i> Docentes</a>
+                <a href="materias.html"><i class="fas fa-book"></i> Materias</a>
+                <a href="asignacion.html" class="active"><i class="fas fa-tasks"></i> Asignación</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>
+                <i class="fas fa-link"></i>
+                Asignación de Materias
+            </h1>
+            <p>Relacione materias con docentes y alumnos (grupos completos o individuales)</p>
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="process-guide">
+                <p><strong>Paso 1:</strong> Selecciona el grupo o alumno</p>
+                <p><strong>Paso 2:</strong> Selecciona la materia y docente</p>
+                <p><strong>Paso 3:</strong> Revisa alumnos irregulares que no deben recibir esta materia</p>
+                <p><strong>Paso 4:</strong> Confirma la asignación</p>
+            </div>
+        <div class="assignment-container">
+
+
+            
+
+            <!-- Panel de selección -->
+            <div class="selection-panel">
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="careerFilter">Carrera:</label>
+                        <select id="careerFilter" class="form-control">
+                            <option value="">Todas las carreras</option>
+                            <option value="ISC">Ing. Sistemas Computacionales</option>
+                            <option value="II">Ing. Industrial</option>
+                            <!-- Otras carreras -->
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="semesterFilter">Semestre:</label>
+                        <select id="semesterFilter" class="form-control">
+                            <option value="">Todos los semestres</option>
+                            <option value="1">1° Semestre</option>
+                            <option value="2">2° Semestre</option>
+                            <!-- Otros semestres -->
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="subjectFilter">Materia:</label>
+                        <select id="subjectFilter" class="form-control">
+                            <option value="">Todas las materias</option>
+                            <option value="MAT-101">Matemáticas Avanzadas</option>
+                            <option value="PRO-202">Programación Orientada a Objetos</option>
+                            <!-- Otras materias -->
+                        </select>
+                    </div>
+                    
+                    <button id="searchBtn" class="btn">
+                        <i class="fas fa-search"></i> Buscar
+                    </button>
+                </div>
+                
+                <div class="assignment-options">
+                    <h3><i class="fas fa-sliders-h"></i> Modo de Asignación</h3>
+                    <div class="option-buttons">
+                        <button class="btn-option active" data-mode="group">
+                            <i class="fas fa-users"></i> Asignación Grupal
+                        </button>
+                        <button class="btn-option" data-mode="individual">
+                            <i class="fas fa-user"></i> Asignación Individual
+                        </button>
+                        <button class="btn-option" data-mode="irregular">
+                            <i class="fas fa-exclamation-triangle"></i> Alumnos Irregulares
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Panel de asignación grupal (visible por defecto) -->
+            <div id="groupAssignment" class="assignment-panel active">
+                <h2><i class="fas fa-users"></i> Asignación por Grupo</h2>
+                
+                <div class="group-selection">
+                    <div class="group-list">
+                        <h3>Grupos Disponibles</h3>
+                        <div class="scroll-container">
+                            <div class="group-card">
+                                <h4>ISC-501</h4>
+                                <p>5° Semestre - Ing. Sistemas</p>
+                                <p><strong>30 alumnos</strong> | 5 materias asignadas</p>
+                                <button class="btn assign-btn">
+                                    <i class="fas fa-plus-circle"></i> Asignar Materia
+                                </button>
+                            </div>
+                            
+                            <div class="group-card">
+                                <h4>ISC-301</h4>
+                                <p>3° Semestre - Ing. Sistemas</p>
+                                <p><strong>28 alumnos</strong> | 4 materias asignadas</p>
+                                <button class="btn assign-btn">
+                                    <i class="fas fa-plus-circle"></i> Asignar Materia
+                                </button>
+                            </div>
+                            
+                            <!-- Más grupos -->
+                        </div>
+                    </div>
+                    
+                    <div class="assignment-details">
+                        <h3>Asignar Materia a: <span id="selectedGroup">ISC-501</span></h3>
+                        
+                        <div class="subject-teacher">
+                            <div class="form-group">
+                                <label>Materia:</label>
+                                <select class="form-control">
+                                    <option>Seleccione una materia</option>
+                                    <option>Matemáticas Avanzadas</option>
+                                    <option>Programación Orientada a Objetos</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Docente:</label>
+                                <select class="form-control">
+                                    <option>Seleccione un docente</option>
+                                    <option>María García López</option>
+                                    <option>Carlos Rodríguez Sánchez</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="student-exceptions">
+                            <h4><i class="fas fa-user-minus"></i> Excepciones (alumnos irregulares)</h4>
+                            <div class="exception-list">
+                                <div class="exception-item">
+                                    <label>
+                                        <input type="checkbox">
+                                        <span>Juan Pérez López (19181005)</span>
+                                        <small class="reason">Ya cursó esta materia</small>
+                                    </label>
+                                </div>
+                                <div class="exception-item">
+                                    <label>
+                                        <input type="checkbox">
+                                        <span>Ana Martínez Sánchez (19181012)</span>
+                                        <small class="reason">Materia no requerida</small>
+                                    </label>
+                                </div>
+                                <!-- Más excepciones -->
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-block confirm-btn">
+                            <i class="fas fa-check-circle"></i> Confirmar Asignación
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Panel de asignación individual -->
+            <div id="individualAssignment" class="assignment-panel">
+                <h2><i class="fas fa-user"></i> Asignación Individual</h2>
+                
+                
+                <div class="individual-selection">
+                    <div class="student-search">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" placeholder="Buscar alumno...">
+                        </div>
+                        
+                        <div class="student-list">
+                            <div class="student-card selected">
+                                <h4>Juan Pérez López</h4>
+                                <p>19181005 | 5° Semestre ISC</p>
+                                <p class="status"><i class="fas fa-check-circle"></i> Seleccionado</p>
+                            </div>
+                            
+                            <div class="student-card">
+                                <h4>María García Martínez</h4>
+                                <p>19181012 | 5° Semestre ISC</p>
+                                <p class="status">Haz click para seleccionar</p>
+                            </div>
+                            <!-- Más alumnos -->
+                        </div>
+                    </div>
+                    
+                    <div class="assignment-details">
+                        <h3>Asignar Materia a: <span id="selectedStudent">Juan Pérez López</span></h3>
+                        
+                        <div class="subject-teacher">
+                            <div class="form-group">
+                                <label>Materia:</label>
+                                <select class="form-control">
+                                    <option>Seleccione una materia</option>
+                                    <option>Matemáticas Avanzadas</option>
+                                    <option>Programación Orientada a Objetos</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Docente:</label>
+                                <select class="form-control">
+                                    <option>Seleccione un docente</option>
+                                    <option>María García López</option>
+                                    <option>Carlos Rodríguez Sánchez</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="current-assignments">
+                            <h4><i class="fas fa-list-check"></i> Materias Actuales</h4>
+                            <ul class="assignment-list">
+                                <li>
+                                    <span>Programación Orientada a Objetos</span>
+                                    <small>Carlos Rodríguez Sánchez</small>
+                                    <button class="btn-icon delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </li>
+                                <li>
+                                    <span>Bases de Datos</span>
+                                    <small>Luis Martínez Pérez</small>
+                                    <button class="btn-icon delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <button class="btn btn-block confirm-btn">
+                            <i class="fas fa-check-circle"></i> Confirmar Asignación
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Panel de alumnos irregulares -->
+            <div id="irregularAssignment" class="assignment-panel">
+                <h2><i class="fas fa-exclamation-triangle"></i> Gestión de Alumnos Irregulares</h2>
+                
+                <div class="irregular-management">
+                    <div class="irregular-list">
+                        <div class="filter-box">
+                            <label>Filtrar por situación:</label>
+                            <select class="form-control">
+                                <option>Todas las situaciones</option>
+                                <option>Repetición de materia</option>
+                                <option>Cambio de carrera</option>
+                                <option>Baja temporal</option>
+                            </select>
+                        </div>
+                        
+                        <div class="scroll-container">
+                            <div class="irregular-card">
+                                <h4>Ana Martínez Sánchez</h4>
+                                <p>19181012 | 5° Semestre ISC</p>
+                                <div class="irregular-reason">
+                                    <strong>Situación:</strong> Repitiendo materia
+                                </div>
+                                <div class="missing-subjects">
+                                    <strong>Materias faltantes:</strong> Matemáticas Avanzadas, Física
+                                </div>
+                                <button class="btn assign-btn">
+                                    <i class="fas fa-book-medical"></i> Asignar Materias
+                                </button>
+                            </div>
+                            
+                            <!-- Más alumnos irregulares -->
+                        </div>
+                    </div>
+                    
+                    <div class="assignment-details">
+                        <h3>Asignar Materias a: <span id="selectedIrregular">Ana Martínez Sánchez</span></h3>
+                        
+                        <div class="subject-selection">
+                            <h4><i class="fas fa-book-open"></i> Materias Disponibles</h4>
+                            <div class="subject-checkboxes">
+                                <label class="subject-option">
+                                    <input type="checkbox" checked>
+                                    <span>Matemáticas Avanzadas</span>
+                                    <small>Grupo: ISC-501 | Docente: María García</small>
+                                </label>
+                                
+                                <label class="subject-option">
+                                    <input type="checkbox">
+                                    <span>Programación Orientada a Objetos</span>
+                                    <small>Grupo: ISC-501 | Docente: Carlos Rodríguez</small>
+                                </label>
+                                
+                                <label class="subject-option">
+                                    <input type="checkbox">
+                                    <span>Física</span>
+                                    <small>Grupo: ISC-401 | Docente: Luis Martínez</small>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="special-notes">
+                            <label>Notas especiales:</label>
+                            <textarea class="form-control" placeholder="Ej: El alumno necesita horario especial..."></textarea>
+                        </div>
+                        
+                        <button class="btn btn-block confirm-btn">
+                            <i class="fas fa-check-circle"></i> Confirmar Asignaciones
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Sistema de Control Escolar &copy; <span id="current-year">2023</span> | Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/asignacion.js"></script>
+</body>
+</html>

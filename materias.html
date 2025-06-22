@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Materias | Control Escolar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/materias.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Control Escolar
+            </div>
+            <nav class="header-nav">
+                <a href="ControlEscolar.html"><i class="fas fa-home"></i> Inicio</a>
+                <a href="Alumnos.html"><i class="fas fa-user-graduate"></i> Alumnos</a>
+                <a href="Docente.html"><i class="fas fa-chalkboard-teacher"></i> Docentes</a>
+                <a href="materias.html" class="active"><i class="fas fa-book"></i> Materias</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>
+                <i class="fas fa-book"></i>
+                Registro de Materias
+            </h1>
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="tabs">
+            <div class="tab active" data-tab="register">Registrar Materia</div>
+            <div class="tab" data-tab="list">Lista de Materias</div>
+            <div class="tab" data-tab="assign">Asignación de Materias</div>
+        </div>
+
+        <!-- Formulario de Registro -->
+        <div id="register" class="tab-content active">
+            <div class="form-container">
+                <h2 class="form-title">
+                    <i class="fas fa-book-medical"></i>
+                    Datos de la Materia
+                </h2>
+                
+                <form id="subjectForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="subjectCode" class="form-label">Matrícula</label>
+                            <input type="text" id="subjectCode" class="form-control" placeholder="Ej. MAT-101" required>
+                            <small class="form-text">Código único identificador de la materia</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subjectName" class="form-label">Nombre de la Materia</label>
+                            <input type="text" id="subjectName" class="form-control" placeholder="Ej. Matemáticas Avanzadas" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="units" class="form-label">Cantidad de Unidades</label>
+                            <input type="number" id="units" class="form-control" min="1" max="10" value="5" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="teacher" class="form-label">Maestro Encargado</label>
+                            <select id="teacher" class="form-control" required>
+                                <option value="">Seleccione un docente...</option>
+                                <!-- Esto se puede poblar dinámicamente desde la base de datos -->
+                                <option value="D19181001">García López María</option>
+                                <option value="D19181002">Rodríguez Sánchez Carlos</option>
+                                <option value="D19181003">Martínez Pérez Luis</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-block" style="margin-top: 1.5rem;">
+                        <i class="fas fa-save"></i>
+                        Registrar Materia
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Lista de Materias -->
+        <div id="list" class="tab-content">
+            <div class="table-container">
+                <h2 class="form-title">
+                    <i class="fas fa-list"></i>
+                    Materias Registradas
+                </h2>
+                
+                <div class="table-actions">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchSubject" placeholder="Buscar materia...">
+                    </div>
+                </div>
+                
+                <div style="overflow-x: auto;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Matrícula</th>
+                                <th>Nombre</th>
+                                <th>Unidades</th>
+                                <th>Docente</th>
+                                <th>Alumnos</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Datos de ejemplo -->
+                            <tr>
+                                <td>MAT-101</td>
+                                <td>Matemáticas Avanzadas</td>
+                                <td>5</td>
+                                <td>García López María</td>
+                                <td>24</td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="btn-icon edit" title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn-icon delete" title="Eliminar">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <button class="btn-icon assign" title="Asignar Alumnos">
+                                            <i class="fas fa-user-graduate"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>PRO-202</td>
+                                <td>Programación Orientada a Objetos</td>
+                                <td>4</td>
+                                <td>Rodríguez Sánchez Carlos</td>
+                                <td>18</td>
+                                <td>
+                                    <div class="actions">
+                                        <button class="btn-icon edit" title="Editar">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button class="btn-icon delete" title="Eliminar">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        <button class="btn-icon assign" title="Asignar Alumnos">
+                                            <i class="fas fa-user-graduate"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination">
+                    <button class="btn-icon" disabled>
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <span>Página 1 de 3</span>
+                    <button class="btn-icon">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Asignación de Materias (placeholder para futura implementación) -->
+        <div id="assign" class="tab-content">
+            <div class="form-container">
+                <h2 class="form-title">
+                    <i class="fas fa-users-class"></i>
+                    Asignación de Materias
+                </h2>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Módulo en desarrollo</strong>
+                    <p>Esta funcionalidad estará disponible pronto para asignar materias a grupos completos o alumnos individuales.</p>
+                    <p>Permitirá manejar casos especiales como alumnos irregulares.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Sistema de Control Escolar &copy; <span id="current-year">2023</span> | Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/materias.js"></script>
+</body>
+</html>
