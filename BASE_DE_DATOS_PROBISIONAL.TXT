@@ -1,0 +1,221 @@
+-- Crear la base de datos
+CREATE DATABASE IF NOT EXISTS control_escolar;
+USE control_escolar;
+
+-- Tabla de Carreras
+CREATE TABLE carreras (
+    id_carrera INT AUTO_INCREMENT PRIMARY KEY,
+    clave VARCHAR(10) UNIQUE NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    activa BOOLEAN DEFAULT TRUE
+);
+
+-- Tabla de Semestres
+CREATE TABLE semestres (
+    id_semestre INT AUTO_INCREMENT PRIMARY KEY,
+    numero INT UNIQUE NOT NULL,
+    nombre VARCHAR(50) NOT NULL
+);
+
+-- Tabla de Alumnos
+CREATE TABLE alumnos (
+    id_alumno INT AUTO_INCREMENT PRIMARY KEY,
+    numero_control VARCHAR(20) UNIQUE NOT NULL,
+    nombre VARCHAR(50) NOT NULL,
+    apellido_paterno VARCHAR(50) NOT NULL,
+    apellido_materno VARCHAR(50),
+    fecha_nacimiento DATE,
+    curp VARCHAR(18) UNIQUE,
+    email VARCHAR(100) UNIQUE,
+    telefono VARCHAR(15),
+    id_carrera INT NOT NULL,
+    id_semestre INT NOT NULL,
+    activo BOOLEAN DEFAULT TRUE,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_carrera) REFERENCES carreras(id_carrera),
+    FOREIGN KEY (id_semestre) REFERENCES semestres(id_semestre)
+);
+
+-- Tabla de Docentes
+CREATE TABLE docentes (
+    id_docente INT AUTO_INCREMENT PRIMARY KEY,
+    numero_control VARCHAR(20) UNIQUE NOT NULL,
+    nombre VARCHAR(50) NOT NULL,
+    apellido_paterno VARCHAR(50) NOT NULL,
+    apellido_materno VARCHAR(50),
+    fecha_nacimiento DATE,
+    curp VARCHAR(18) UNIQUE,
+    email VARCHAR(100) UNIQUE,
+    telefono VARCHAR(15),
+    especialidad VARCHAR(100),
+    activo BOOLEAN DEFAULT TRUE,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabla de Materias
+CREATE TABLE materias (
+    id_materia INT AUTO_INCREMENT PRIMARY KEY,
+    clave VARCHAR(20) UNIQUE NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    unidades INT NOT NULL DEFAULT 5,
+    horas_teoria INT,
+    horas_practica INT,
+    id_carrera INT NOT NULL,
+    activa BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (id_carrera) REFERENCES carreras(id_carrera)
+);
+
+-- Tabla de Grupos
+CREATE TABLE grupos (
+    id_grupo INT AUTO_INCREMENT PRIMARY KEY,
+    clave VARCHAR(20) UNIQUE NOT NULL,
+    nombre VARCHAR(50) NOT NULL,
+    id_carrera INT NOT NULL,
+    id_semestre INT NOT NULL,
+    periodo VARCHAR(20) NOT NULL,
+    activo BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (id_carrera) REFERENCES carreras(id_carrera),
+    FOREIGN KEY (id_semestre) REFERENCES semestres(id_semestre)
+);
+
+-- Tabla de Materias-Docentes (Asignación de materias a docentes)
+CREATE TABLE materias_docentes (
+    id_materia_docente INT AUTO_INCREMENT PRIMARY KEY,
+    id_materia INT NOT NULL,
+    id_docente INT NOT NULL,
+    periodo VARCHAR(20) NOT NULL,
+    fecha_asignacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    activa BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (id_materia) REFERENCES materias(id_materia),
+    FOREIGN KEY (id_docente) REFERENCES docentes(id_docente),
+    UNIQUE KEY (id_materia, id_docente, periodo)
+);
+
+-- Tabla de Grupos-Alumnos (Inscripción de alumnos a grupos)
+CREATE TABLE grupos_alumnos (
+    id_grupo_alumno INT AUTO_INCREMENT PRIMARY KEY,
+    id_grupo INT NOT NULL,
+    id_alumno INT NOT NULL,
+    fecha_inscripcion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    activo BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (id_grupo) REFERENCES grupos(id_grupo),
+    FOREIGN KEY (id_alumno) REFERENCES alumnos(id_alumno),
+    UNIQUE KEY (id_grupo, id_alumno)
+);
+
+-- Tabla de Materias-Grupos (Asignación de materias a grupos)
+CREATE TABLE materias_grupos (
+    id_materia_grupo INT AUTO_INCREMENT PRIMARY KEY,
+    id_materia INT NOT NULL,
+    id_grupo INT NOT NULL,
+    id_docente INT NOT NULL,
+    periodo VARCHAR(20) NOT NULL,
+    aula VARCHAR(20),
+    horario VARCHAR(100),
+    fecha_asignacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    activa BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (id_materia) REFERENCES materias(id_materia),
+    FOREIGN KEY (id_grupo) REFERENCES grupos(id_grupo),
+    FOREIGN KEY (id_docente) REFERENCES docentes(id_docente),
+    UNIQUE KEY (id_materia, id_grupo, periodo)
+);
+
+-- Tabla de Calificaciones
+CREATE TABLE calificaciones (
+    id_calificacion INT AUTO_INCREMENT PRIMARY KEY,
+    id_alumno INT NOT NULL,
+    id_materia INT NOT NULL,
+    id_grupo INT NOT NULL,
+    unidad INT NOT NULL,
+    calificacion DECIMAL(5,2) NOT NULL,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_alumno) REFERENCES alumnos(id_alumno),
+    FOREIGN KEY (id_materia) REFERENCES materias(id_materia),
+    FOREIGN KEY (id_grupo) REFERENCES grupos(id_grupo),
+    UNIQUE KEY (id_alumno, id_materia, id_grupo, unidad)
+);
+
+-- Tabla de Asistencias
+CREATE TABLE asistencias (
+    id_asistencia INT AUTO_INCREMENT PRIMARY KEY,
+    id_alumno INT NOT NULL,
+    id_materia_grupo INT NOT NULL,
+    fecha DATE NOT NULL,
+    asistio BOOLEAN DEFAULT FALSE,
+    justificacion TEXT,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_alumno) REFERENCES alumnos(id_alumno),
+    FOREIGN KEY (id_materia_grupo) REFERENCES materias_grupos(id_materia_grupo),
+    UNIQUE KEY (id_alumno, id_materia_grupo, fecha)
+);
+
+-- Tabla de Tutorías
+CREATE TABLE tutorias (
+    id_tutoria INT AUTO_INCREMENT PRIMARY KEY,
+    id_docente INT NOT NULL,
+    id_grupo INT NOT NULL,
+    fecha DATE NOT NULL,
+    tema VARCHAR(200) NOT NULL,
+    observaciones TEXT,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_docente) REFERENCES docentes(id_docente),
+    FOREIGN KEY (id_grupo) REFERENCES grupos(id_grupo)
+);
+
+-- Tabla de Asistencia a Tutorías
+CREATE TABLE tutorias_asistencia (
+    id_tutoria_asistencia INT AUTO_INCREMENT PRIMARY KEY,
+    id_tutoria INT NOT NULL,
+    id_alumno INT NOT NULL,
+    asistio BOOLEAN DEFAULT FALSE,
+    observaciones TEXT,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_tutoria) REFERENCES tutorias(id_tutoria),
+    FOREIGN KEY (id_alumno) REFERENCES alumnos(id_alumno),
+    UNIQUE KEY (id_tutoria, id_alumno)
+);
+
+-- Tabla de Usuarios del Sistema
+CREATE TABLE usuarios (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    rol ENUM('admin', 'docente', 'control_escolar') NOT NULL,
+    id_persona INT,
+    tipo_persona ENUM('alumno', 'docente'),
+    activo BOOLEAN DEFAULT TRUE,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ultimo_login TIMESTAMP NULL
+);
+
+-- Insertar datos iniciales de semestres
+INSERT INTO semestres (numero, nombre) VALUES 
+(1, 'Primer Semestre'),
+(2, 'Segundo Semestre'),
+(3, 'Tercer Semestre'),
+(4, 'Cuarto Semestre'),
+(5, 'Quinto Semestre'),
+(6, 'Sexto Semestre'),
+(7, 'Séptimo Semestre'),
+(8, 'Octavo Semestre'),
+(9, 'Noveno Semestre'),
+(10, 'Décimo Semestre');
+
+-- Insertar datos iniciales de carreras
+INSERT INTO carreras (clave, nombre, descripcion) VALUES 
+('ISC', 'Ingeniería en Sistemas Computacionales', 'Forma profesionales en el desarrollo de software y sistemas computacionales'),
+('II', 'Ingeniería Industrial', 'Forma profesionales en la optimización de procesos industriales'),
+('IE', 'Ingeniería Electrónica', 'Forma profesionales en el diseño y desarrollo de sistemas electrónicos'),
+('IM', 'Ingeniería Mecánica', 'Forma profesionales en el diseño y mantenimiento de sistemas mecánicos'),
+('IC', 'Ingeniería Civil', 'Forma profesionales en el diseño y construcción de infraestructura civil'),
+('LA', 'Licenciatura en Administración', 'Forma profesionales en la gestión empresarial'),
+('LC', 'Licenciatura en Contaduría', 'Forma profesionales en el área contable y financiera');
+
+-- Insertar un usuario administrador inicial
+INSERT INTO usuarios (username, password, email, rol) VALUES 
+('admin', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin@escuela.edu', 'admin');
+-- Contraseña: "password"
