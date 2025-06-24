@@ -2,44 +2,48 @@ document.addEventListener('DOMContentLoaded', function() {
     const apiUrl = 'php/maestros.php';
 
     // Función para cargar docentes y mostrar en la tabla
-    function cargarDocentes() {
-        fetch(apiUrl)
-            .then(res => res.json())
-            .then(data => {
-                const tbody = document.querySelector('#list tbody');
-                tbody.innerHTML = '';
-                data.forEach(docente => {
-                    const estado = docente.activo == 1 ? 
-                        '<span class="badge badge-success">Activo</span>' : 
-                        '<span class="badge">Inactivo</span>';
+function cargarDocentes() {
+    fetch(apiUrl)
+        .then(res => res.json())
+        .then(data => {
+            const tbody = document.querySelector('#list tbody');
+            tbody.innerHTML = '';
+            data.forEach(docente => {
+                const estado = docente.activo == 1 ? 
+                    '<span class="badge badge-success">Activo</span>' : 
+                    '<span class="badge">Inactivo</span>';
 
-                    // Por simplicidad, aquí solo ponemos "-" en materias asignadas (se puede mejorar luego)
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${docente.numero_control}</td>
-                        <td>${docente.nombre_completo}</td>
-                        <td>-</td>
-                        <td>${estado}</td>
-                        <td>
-                            <div class="actions">
-                                <button class="btn-icon edit" title="Editar" data-id="${docente.id_maestro}">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn-icon delete" title="Eliminar" data-id="${docente.id_maestro}">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                                <button class="btn-icon assign" title="Asignar Materias" data-id="${docente.id_maestro}">
-                                    <i class="fas fa-book"></i>
-                                </button>
-                            </div>
-                        </td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-                agregarEventosBotones();
-            })
-            .catch(err => console.error('Error al cargar docentes:', err));
-    }
+                const materias = docente.materias_asignadas && docente.materias_asignadas.trim() !== '' 
+                    ? docente.materias_asignadas 
+                    : '-';
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${docente.numero_control}</td>
+                    <td>${docente.nombre_completo}</td>
+                    <td>${materias}</td>
+                    <td>${estado}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn-icon edit" title="Editar" data-id="${docente.id_maestro}">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-icon delete" title="Eliminar" data-id="${docente.id_maestro}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <button class="btn-icon assign" title="Asignar Materias" data-id="${docente.id_maestro}">
+                                <i class="fas fa-book"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+            agregarEventosBotones();
+        })
+        .catch(err => console.error('Error al cargar docentes:', err));
+}
+
 
     // Variables del formulario
     const teacherForm = document.getElementById('teacherForm');

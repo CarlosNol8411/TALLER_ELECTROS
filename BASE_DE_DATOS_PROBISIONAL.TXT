@@ -38,7 +38,7 @@ CREATE TABLE materias (
     FOREIGN KEY (id_maestro) REFERENCES maestros(id_maestro)
 );
 
--- Tabla de Alumnos (sin relaciones con carreras ni semestres)
+-- Tabla de Alumnos (sin relación con carreras ni semestres)
 CREATE TABLE alumnos (
     id_alumno INT AUTO_INCREMENT PRIMARY KEY,
     numero_control VARCHAR(20) UNIQUE NOT NULL,
@@ -53,15 +53,15 @@ CREATE TABLE alumnos (
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabla de Alumnos-Materias (relación muchos a muchos)
+-- Tabla que relaciona Alumnos con Materias (muchos a muchos)
 CREATE TABLE alumnos_materias (
     id_alumno_materia INT AUTO_INCREMENT PRIMARY KEY,
     id_alumno INT NOT NULL,
     id_materia INT NOT NULL,
     fecha_inscripcion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     UNIQUE KEY (id_alumno, id_materia),
-    FOREIGN KEY (id_alumno) REFERENCES alumnos(id_alumno),
-    FOREIGN KEY (id_materia) REFERENCES materias(id_materia)
+    FOREIGN KEY (id_alumno) REFERENCES alumnos(id_alumno) ON DELETE CASCADE,
+    FOREIGN KEY (id_materia) REFERENCES materias(id_materia) ON DELETE CASCADE
 );
 
 -- Tabla de Calificaciones por unidad
@@ -73,7 +73,7 @@ CREATE TABLE calificaciones (
     calificacion DECIMAL(5,2) NOT NULL,
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_alumno) REFERENCES alumnos(id_alumno),
-    FOREIGN KEY (id_materia) REFERENCES materias(id_materia),
+    FOREIGN KEY (id_alumno) REFERENCES alumnos(id_alumno) ON DELETE CASCADE,
+    FOREIGN KEY (id_materia) REFERENCES materias(id_materia) ON DELETE CASCADE,
     UNIQUE KEY (id_alumno, id_materia, unidad)
 );

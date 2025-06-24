@@ -11,7 +11,18 @@ parse_str(file_get_contents("php://input"), $input);
 if ($method === 'GET') {
     // Obtener todos los docentes
     try {
-        $stmt = $pdo->query("SELECT * FROM maestros ORDER BY fecha_registro DESC");
+        $stmt = $pdo->query("SELECT 
+    m.*,
+    GROUP_CONCAT(mat.nombre SEPARATOR ', ') AS materias_asignadas
+FROM 
+    maestros m
+LEFT JOIN 
+    materias mat ON mat.id_maestro = m.id_maestro
+GROUP BY 
+    m.id_maestro
+ORDER BY 
+    m.fecha_registro DESC
+");
         $maestros = $stmt->fetchAll(PDO::FETCH_ASSOC);
         echo json_encode($maestros);
     } catch (Exception $e) {
