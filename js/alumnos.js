@@ -1,92 +1,138 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Funcionalidad de pestañas
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('studentForm');
+    const tabla = document.querySelector('#list tbody');
+    const tabRegister = document.querySelector('.tab[data-tab="register"]');
+    const tabList = document.querySelector('.tab[data-tab="list"]');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    let modoEdicion = false;
+    let idAlumnoEditando = null;
+
+    // Cambiar pestañas
     document.querySelectorAll('.tab').forEach(tab => {
         tab.addEventListener('click', () => {
-            // Remover clase active de todas las pestañas y contenidos
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            
-            // Agregar clase active a la pestaña clickeada
+            document.querySelectorAll('.tab, .tab-content').forEach(el => el.classList.remove('active'));
             tab.classList.add('active');
-            
-            // Mostrar el contenido correspondiente
-            const tabId = tab.getAttribute('data-tab');
-            document.getElementById(tabId).classList.add('active');
+            document.getElementById(tab.dataset.tab).classList.add('active');
         });
     });
 
-    // Manejo del formulario
-    const studentForm = document.getElementById('studentForm');
-    if (studentForm) {
-        studentForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Aquí iría la lógica para registrar el alumno
-            alert('Alumno registrado exitosamente');
-            
-            // Limpiar el formulario
-            e.target.reset();
-            
-            // Opcional: Cambiar a la pestaña de lista
-            document.querySelector('.tab[data-tab="list"]').click();
-            
-            // Aquí podrías actualizar la tabla con el nuevo registro
+    cargarAlumnos();
+
+    function cargarAlumnos() {
+        fetch('php/alumnos.php')
+            .then(res => res.json())
+            .then(data => {
+                tabla.innerHTML = '';
+                data.forEach(alumno => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${alumno.numero_control}</td>
+                        <td>${alumno.apellido_paterno} ${alumno.apellido_materno} ${alumno.nombre}</td>
+                        <td>${alumno.semestre_nombre}</td>
+                        <td>${alumno.carrera_nombre}</td>
+                        <td><span class="badge badge-success">Activo</span></td>
+                        <td>
+                            <div class="actions">
+                                <button class="btn-icon edit" data-id="${alumno.id_alumno}" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="btn-icon delete" data-id="${alumno.id_alumno}" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                <button class="btn-icon" title="Asignar Materias"><i class="fas fa-book"></i></button>
+                            </div>
+                        </td>
+                    `;
+                    tabla.appendChild(tr);
+                });
+
+                agregarEventos();
+            })
+            .catch(err => console.error('Error al cargar alumnos:', err));
+    }
+
+    function agregarEventos() {
+        document.querySelectorAll('.btn-icon.edit').forEach(btn => {
+            btn.onclick = () => {
+                const fila = btn.closest('tr');
+                const tds = fila.querySelectorAll('td');
+
+                document.getElementById('controlNumber').value = tds[0].textContent;
+                const nombres = tds[1].textContent.trim().split(' ');
+                document.getElementById('firstName').value = nombres.slice(2).join(' ');
+                document.getElementById('lastName').value = nombres[0];
+                document.getElementById('mothersLastName').value = nombres[1] || '';
+                document.getElementById('semester').value = tds[2].textContent;
+                document.getElementById('career').value = tds[3].textContent;
+
+                modoEdicion = true;
+                idAlumnoEditando = btn.dataset.id;
+                submitBtn.innerHTML = '<i class="fas fa-save"></i> Actualizar Alumno';
+                tabRegister.click();
+            };
+        });
+
+        document.querySelectorAll('.btn-icon.delete').forEach(btn => {
+            btn.onclick = () => {
+                if (confirm('¿Eliminar este alumno?')) {
+                    fetch('php/alumnos.php', {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ id_alumno: btn.dataset.id })
+                    })
+                    .then(res => res.json())
+                    .then(() => cargarAlumnos())
+                    .catch(err => alert('Error al eliminar alumno'));
+                }
+            };
         });
     }
 
-    // Ejemplo: Manejo de botones de acción en la tabla
-    document.querySelectorAll('.btn-icon.delete').forEach(btn => {
-        btn.addEventListener('click', function() {
-            if (confirm('¿Estás seguro de eliminar este alumno?')) {
-                // Lógica para eliminar el alumno
-                const row = this.closest('tr');
-                row.style.opacity = '0';
-                setTimeout(() => {
-                    row.remove();
-                    // Aquí podrías hacer una petición al servidor para eliminar el registro
-                }, 300);
-            }
-        });
-    });
+    form.onsubmit = e => {
+        e.preventDefault();
 
-    // Ejemplo: Manejo de botones de edición
-    document.querySelectorAll('.btn-icon.edit').forEach(btn => {
-        btn.addEventListener('click', function() {
-            // Lógica para editar el alumno
-            document.querySelector('.tab[data-tab="register"]').click();
-            
-            // Aquí podrías cargar los datos del alumno en el formulario
-            const row = this.closest('tr');
-            const cells = row.querySelectorAll('td');
-            
-            // Ejemplo de cómo podrías llenar el formulario
-            document.getElementById('controlNumber').value = cells[0].textContent;
-            
-            // Separa nombre completo en partes (esto es un ejemplo simplificado)
-            const fullName = cells[1].textContent.split(' ');
-            document.getElementById('firstName').value = fullName[2] || ''; // Nombre
-            document.getElementById('lastName').value = fullName[0] || ''; // Apellido Paterno
-            document.getElementById('mothersLastName').value = fullName[1] || ''; // Apellido Materno
-            
-            // Semestre (extraer el número)
-            const semesterText = cells[2].textContent;
-            const semesterNumber = semesterText.match(/\d+/)[0];
-            document.getElementById('semester').value = semesterNumber;
-            
-            // Carrera
-            const careerText = cells[3].textContent;
-            // Aquí necesitarías una lógica para mapear el texto al valor del select
-            // Esto es solo un ejemplo simplificado
-            if (careerText.includes('Sistemas')) {
-                document.getElementById('career').value = 'ISC';
-            }
-            // Continuar con otras carreras...
-            
-            // Cambiar el texto del botón de submit
-            const submitBtn = studentForm.querySelector('button[type="submit"]');
-            submitBtn.innerHTML = '<i class="fas fa-save"></i> Actualizar Alumno';
-            
-            // Podrías agregar un campo oculto para el ID del alumno si estás editando
-        });
-    });
+        const datos = {
+            numero_control: document.getElementById('controlNumber').value,
+            nombre: document.getElementById('firstName').value,
+            apellido_paterno: document.getElementById('lastName').value,
+            apellido_materno: document.getElementById('mothersLastName').value,
+            carrera_nombre: document.getElementById('career').value,
+            semestre_nombre: document.getElementById('semester').value,
+            email: '',
+            telefono: ''
+        };
+
+        if (modoEdicion) {
+            datos.id_alumno = idAlumnoEditando;
+            fetch('php/alumnos.php', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(datos)
+            })
+            .then(res => res.json())
+            .then(() => {
+                form.reset();
+                submitBtn.innerHTML = '<i class="fas fa-save"></i> Registrar Alumno';
+                modoEdicion = false;
+                cargarAlumnos();
+                tabList.click();
+            })
+            .catch(err => alert('Error al actualizar alumno'));
+        } else {
+            fetch('php/alumnos.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(datos)
+            })
+            .then(res => res.json())
+            .then(() => {
+                form.reset();
+                cargarAlumnos();
+                tabList.click();
+            })
+            .catch(err => alert('Error al registrar alumno'));
+        }
+    };
 });

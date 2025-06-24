@@ -1,137 +1,212 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Funcionalidad de pestañas
-    document.querySelectorAll('.tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Remover clase active de todas las pestañas y contenidos
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            
-            // Agregar clase active a la pestaña clickeada
-            tab.classList.add('active');
-            
-            // Mostrar el contenido correspondiente
-            const tabId = tab.getAttribute('data-tab');
-            document.getElementById(tabId).classList.add('active');
-        });
+    const apiUrl = 'php/materias.php';
+    const apiMaestrosUrl = 'php/maestros.php'; // Para cargar maestros en el select
+
+    // Elementos del formulario
+    const subjectForm = document.getElementById('subjectForm');
+    const submitBtn = subjectForm.querySelector('button[type="submit"]');
+    const subjectCodeInput = document.getElementById('subjectCode');
+    const subjectNameInput = document.getElementById('subjectName');
+    const unitsInput = document.getElementById('units');
+    const teacherSelect = document.getElementById('teacher');
+    const tbody = document.querySelector('#list tbody');
+    const searchInput = document.getElementById('searchSubject');
+
+    // Función para cargar maestros en el select
+    function cargarMaestros() {
+        fetch(apiMaestrosUrl)
+            .then(res => res.json())
+            .then(data => {
+                teacherSelect.innerHTML = '<option value="">Seleccione un docente...</option>';
+                data.forEach(maestro => {
+                    const option = document.createElement('option');
+                    option.value = maestro.id_maestro; // Aquí el id para guardar
+                    option.textContent = maestro.nombre_completo;
+                    teacherSelect.appendChild(option);
+                });
+            })
+            .catch(err => console.error('Error al cargar maestros:', err));
+    }
+
+    // Función para cargar materias y llenar la tabla
+    function cargarMaterias() {
+        fetch(apiUrl)
+            .then(res => res.json())
+            .then(data => {
+                tbody.innerHTML = '';
+                data.forEach(materia => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${materia.matricula}</td>
+                        <td>${materia.nombre}</td>
+                        <td>${materia.unidades}</td>
+                        <td>${materia.nombre_maestro || '-'}</td>
+                        <td>${materia.alumnos_count || 0}</td>
+                        <td>
+                            <div class="actions">
+                                <button class="btn-icon edit" title="Editar" data-id="${materia.id_materia}">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn-icon delete" title="Eliminar" data-id="${materia.id_materia}">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                <button class="btn-icon assign" title="Asignar Alumnos" data-id="${materia.id_materia}">
+                                    <i class="fas fa-user-graduate"></i>
+                                </button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+                agregarEventosBotones();
+            })
+            .catch(err => console.error('Error al cargar materias:', err));
+    }
+
+    // Limpiar formulario y reset botón
+    function resetForm() {
+        subjectForm.reset();
+        submitBtn.innerHTML = '<i class="fas fa-save"></i> Registrar Materia';
+        delete subjectForm.dataset.editingId;
+    }
+
+    // Evento para registrar o actualizar materia
+    subjectForm.addEventListener('submit', e => {
+        e.preventDefault();
+
+        // Validar datos
+        const data = {
+            matricula: subjectCodeInput.value.trim(),
+            nombre: subjectNameInput.value.trim(),
+            unidades: parseInt(unitsInput.value),
+            id_maestro: teacherSelect.value
+        };
+
+        if (!data.matricula || !data.nombre || !data.unidades || !data.id_maestro) {
+            alert('Por favor complete todos los campos');
+            return;
+        }
+
+        if (subjectForm.dataset.editingId) {
+            // Actualizar materia
+            data.id_materia = subjectForm.dataset.editingId;
+            fetch(apiUrl, {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: new URLSearchParams(data)
+            })
+            .then(res => res.json())
+            .then(res => {
+                alert(res.message || 'Materia actualizada');
+                resetForm();
+                cargarMaterias();
+                document.querySelector('.tab[data-tab="list"]').click();
+            })
+            .catch(() => alert('Error al actualizar materia'));
+        } else {
+            // Registrar materia nueva
+            fetch(apiUrl, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(res => {
+                if (res.error) {
+                    alert('Error: ' + res.error);
+                } else {
+                    alert(res.message || 'Materia registrada');
+                    resetForm();
+                    cargarMaterias();
+                    document.querySelector('.tab[data-tab="list"]').click();
+                }
+            })
+            .catch(() => alert('Error al registrar materia'));
+        }
     });
+
+    // Función para agregar eventos a los botones editar, eliminar y asignar
+    function agregarEventosBotones() {
+        // Editar
+        document.querySelectorAll('.btn-icon.edit').forEach(btn => {
+            btn.onclick = () => {
+                const id = btn.getAttribute('data-id');
+                fetch(apiUrl)
+                    .then(res => res.json())
+                    .then(data => {
+                        const materia = data.find(m => m.id_materia == id);
+                        if (!materia) return alert('Materia no encontrada');
+
+                        subjectCodeInput.value = materia.matricula;
+                        subjectNameInput.value = materia.nombre;
+                        unitsInput.value = materia.unidades;
+                        teacherSelect.value = materia.id_maestro;
+
+                        submitBtn.innerHTML = '<i class="fas fa-save"></i> Actualizar Materia';
+                        subjectForm.dataset.editingId = id;
+
+                        document.querySelector('.tab[data-tab="register"]').click();
+                    });
+            };
+        });
+
+        // Eliminar
+        document.querySelectorAll('.btn-icon.delete').forEach(btn => {
+            btn.onclick = () => {
+                if (!confirm('¿Seguro que quieres eliminar esta materia?')) return;
+                const id = btn.getAttribute('data-id');
+                fetch(apiUrl, {
+                    method: 'DELETE',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: new URLSearchParams({id_materia: id})
+                })
+                .then(res => res.json())
+                .then(res => {
+                    alert(res.message || 'Materia eliminada');
+                    cargarMaterias();
+                })
+                .catch(() => alert('Error al eliminar materia'));
+            };
+        });
+
+        // Asignar (placeholder)
+        document.querySelectorAll('.btn-icon.assign').forEach(btn => {
+            btn.onclick = () => {
+                alert('Funcionalidad para asignar alumnos próximamente');
+            };
+        });
+    }
 
     // Búsqueda en la tabla
-    const searchInput = document.getElementById('searchSubject');
-    if (searchInput) {
-        searchInput.addEventListener('input', function() {
-            const searchTerm = this.value.toLowerCase();
-            const rows = document.querySelectorAll('.table tbody tr');
-            
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(searchTerm) ? '' : 'none';
-            });
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        tbody.querySelectorAll('tr').forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(searchTerm) ? '' : 'none';
         });
-    }
+    });
 
-    // Manejo del formulario
-    const subjectForm = document.getElementById('subjectForm');
-    if (subjectForm) {
-        subjectForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            // Validar datos del formulario
-            const subjectCode = document.getElementById('subjectCode').value;
-            const subjectName = document.getElementById('subjectName').value;
-            const units = document.getElementById('units').value;
-            const teacher = document.getElementById('teacher').value;
-            
-            if (!subjectCode || !subjectName || !units || !teacher) {
-                alert('Por favor complete todos los campos requeridos');
-                return;
+    // Pestañas
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+            tab.classList.add('active');
+            const tabId = tab.getAttribute('data-tab');
+            document.getElementById(tabId).classList.add('active');
+
+            if (tabId === 'list') {
+                cargarMaterias();
             }
-            
-            // Aquí iría la lógica para registrar la materia
-            alert('Materia registrada exitosamente');
-            
-            // Limpiar el formulario
-            e.target.reset();
-            
-            // Opcional: Cambiar a la pestaña de lista
-            document.querySelector('.tab[data-tab="list"]').click();
-            
-            // Aquí podrías actualizar la tabla con el nuevo registro
-        });
-    }
-
-    // Manejo de botones de acción en la tabla
-    document.querySelectorAll('.btn-icon.delete').forEach(btn => {
-        btn.addEventListener('click', function() {
-            if (confirm('¿Estás seguro de eliminar esta materia?')) {
-                // Lógica para eliminar la materia
-                const row = this.closest('tr');
-                row.style.opacity = '0';
-                setTimeout(() => {
-                    row.remove();
-                    // Aquí podrías hacer una petición al servidor para eliminar el registro
-                }, 300);
+            if (tabId === 'register') {
+                resetForm();
+                cargarMaestros();
             }
         });
     });
 
-    // Manejo de botones de edición
-    document.querySelectorAll('.btn-icon.edit').forEach(btn => {
-        btn.addEventListener('click', function() {
-            // Lógica para editar la materia
-            document.querySelector('.tab[data-tab="register"]').click();
-            
-            const row = this.closest('tr');
-            const cells = row.querySelectorAll('td');
-            
-            // Llenar el formulario con los datos de la materia
-            document.getElementById('subjectCode').value = cells[0].textContent;
-            document.getElementById('subjectName').value = cells[1].textContent;
-            document.getElementById('units').value = cells[2].textContent;
-            
-            // Seleccionar el docente correspondiente
-            const teacherName = cells[3].textContent;
-            const teacherSelect = document.getElementById('teacher');
-            for (let i = 0; i < teacherSelect.options.length; i++) {
-                if (teacherSelect.options[i].text === teacherName) {
-                    teacherSelect.selectedIndex = i;
-                    break;
-                }
-            }
-            
-            // Cambiar el texto del botón de submit
-            const submitBtn = subjectForm.querySelector('button[type="submit"]');
-            submitBtn.innerHTML = '<i class="fas fa-save"></i> Actualizar Materia';
-            
-            // Podrías agregar un campo oculto para el ID de la materia si estás editando
-        });
-    });
-
-    // Manejo de botones de asignación
-    document.querySelectorAll('.btn-icon.assign').forEach(btn => {
-        btn.addEventListener('click', function() {
-            // Cambiar a la pestaña de asignación
-            document.querySelector('.tab[data-tab="assign"]').click();
-            
-            // Aquí podrías cargar los datos específicos de la materia para asignación
-            const row = this.closest('tr');
-            const subjectName = row.querySelector('td:nth-child(2)').textContent;
-            
-            // Mostrar información en el área de asignación
-            const assignTab = document.getElementById('assign');
-            assignTab.innerHTML = `
-                <div class="form-container">
-                    <h2 class="form-title">
-                        <i class="fas fa-users-class"></i>
-                        Asignar Alumnos a: ${subjectName}
-                    </h2>
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle"></i>
-                        <strong>Módulo en desarrollo</strong>
-                        <p>Esta funcionalidad permitirá asignar alumnos individuales o grupos completos.</p>
-                        <p>Se podrán manejar casos especiales como alumnos irregulares.</p>
-                    </div>
-                </div>
-            `;
-        });
-    });
+    // Inicializar datos
+    cargarMaestros();
+    cargarMaterias();
 });
