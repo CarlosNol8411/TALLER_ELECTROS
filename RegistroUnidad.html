@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Alumnos | Control Escolar</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/alumnos.css">
+    
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                Control Escolar
+            </div>
+            <nav class="header-nav">
+                <a href="ControlEscolar.html"><i class="fas fa-home"></i> Inicio</a>
+                <a href="Alumnos.html"><i class="fas fa-user-graduate"></i> Alumnos</a>
+                <a href="Docente.html"><i class="fas fa-chalkboard-teacher"></i> Docentes</a>
+                <a href="materias.html"><i class="fas fa-book"></i> Materias</a>
+                <a href="asignacion.html"><i class="fas fa-tasks"></i> Asignación materias</a>
+                <a href="RegistroUnidad.html" class="active"><i class="fas fa-tasks"></i> Asignación unidad</a>
+                <a href="reportes.html"><i class="fas fa-chart-bar"></i> Reportes</a>
+                
+            </nav>
+        </div>
+    </header>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>
+                <i class="fas fa-user-graduate"></i>
+                Registro de unidades
+            </h1>
+        </div>
+    </div>
+
+    <main class="container">
+        <div class="tabs">
+            <div class="tab active" data-tab="register">Registro de unidades</div>
+            
+        </div>
+
+        <!-- Formulario de Registro -->
+        <div id="register" class="tab-content active">
+            <div class="form-container">
+                <h2 class="form-title">
+                    <i class="fas fa-user-plus"></i>
+                    Registro de unidades
+                </h2>
+                
+                <form id="studentForm">
+                    <div class="form-grid">
+                        
+                        <div class="form-group">
+                            <label for="Materia" class="form-label">Materia</label>
+                            <select id="semester" class="form-control" required>
+                                <option value="" hidden>Seleccione...</option>
+                                <option value="Matematicas">Matematicas</option>
+                                <option value="Inteligencia_artificial">Inteligencia artificial</option>
+                                <option value="Validacio_y_verificacion">Validacio y Verificacion</option>
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="Docente" class="form-label">Docente encargado</label>
+                            <select id="docentes" name="" id="docente" class="form-control">
+                                <option hidden>Seleccione un docente</option>
+                                <option id="Maria">María García López</option>
+                                <option id="Carlos">Carlos Rodríguez Sánchez</option>
+
+                            </select>
+                        </div>
+                        
+                    <button type="submit" class="btn btn-block" style="margin-top: 1.5rem;">
+                        <i class="fas fa-save"></i>
+                        Buscar
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Materias -->
+        <div id="list" class="tab-content active">
+    <div class="table-container">
+        <h2 class="form-title">
+            <i class="fas fa-list"></i>
+            Registro de unidades
+        </h2>
+        
+        <div style="overflow-x: auto;">
+            <table id="dynamicTable" class="table">
+                <thead>
+                    <tr>
+                        <th>Materia</th>
+                        <th>Alumnos</th>
+                        <th>Unidad 1</th>
+                        <th>Unidad 2</th>
+                        <th>Unidad 3</th>
+                        <th>Unidad 4</th>
+                        <th>Unidad 5</th>
+                        <th>Unidad 6</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Matematicas</td>
+                        <td>María López Zapata</td>
+                        <td class="editable"></td>
+                        <td class="editable"></td>
+                        <td class="editable"></td>
+                        <td class="editable"></td>
+                        <td class="editable"></td>
+                        <td>Null</td>
+                    </tr>
+                    <tr>
+                        <td>Matematicas</td>
+                        <td>Carlos Rodríguez Hernandez</td>
+                        <td class="editable"></td>
+                        <td class="editable"></td>
+                        <td class="editable"></td>
+                        <td class="editable"></td>
+                        <td class="editable"></td>
+                        <td>Null</td>
+                    </tr>
+                    <tr>
+                        <td>Matematicas</td>
+                        <td>Luis Martines Sánchez</td>
+                        <td class="editable"></td>
+                        <td class="editable"></td>
+                        <td class="editable"></td>
+                        <td class="editable"></td>
+                        <td class="editable"></td>
+                        <td>Null</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</main>
+
+    
+
+    <script src="js/main.js"></script>
+    <script src="js/asignarUnidad.js"></script>
+</body>
+</html>
