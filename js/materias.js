@@ -12,9 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const tbody = document.querySelector('#list tbody');
     const searchInput = document.getElementById('searchSubject');
 
-    // Función para cargar maestros en el select
+    // Función para cargar maestros en el select, devuelve Promise
     function cargarMaestros() {
-        fetch(apiMaestrosUrl)
+        return fetch(apiMaestrosUrl)
             .then(res => res.json())
             .then(data => {
                 teacherSelect.innerHTML = '<option value="">Seleccione un docente...</option>';
@@ -137,15 +137,18 @@ document.addEventListener('DOMContentLoaded', function() {
                         const materia = data.find(m => m.id_materia == id);
                         if (!materia) return alert('Materia no encontrada');
 
-                        subjectCodeInput.value = materia.matricula;
-                        subjectNameInput.value = materia.nombre;
-                        unitsInput.value = materia.unidades;
-                        teacherSelect.value = materia.id_maestro;
+                        // Esperar que maestros estén cargados antes de asignar valores
+                        cargarMaestros().then(() => {
+                            subjectCodeInput.value = materia.matricula;
+                            subjectNameInput.value = materia.nombre;
+                            unitsInput.value = materia.unidades;
+                            teacherSelect.value = materia.id_maestro;
 
-                        submitBtn.innerHTML = '<i class="fas fa-save"></i> Actualizar Materia';
-                        subjectForm.dataset.editingId = id;
+                            submitBtn.innerHTML = '<i class="fas fa-save"></i> Actualizar Materia';
+                            subjectForm.dataset.editingId = id;
 
-                        document.querySelector('.tab[data-tab="register"]').click();
+                            document.querySelector('.tab[data-tab="register"]').click();
+                        });
                     });
             };
         });
