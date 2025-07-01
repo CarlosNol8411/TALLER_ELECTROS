@@ -2,17 +2,47 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Buscador de Herramientas 1.1</title>
+    <title>Buscador de Herramientas y Préstamos 1.1</title>
     <link rel="stylesheet" href="/main.css">
 </head>
 <body>
-    <h1>Buscador de Herramientas 1.1</h1>
+    <h1>Buscador de Herramientas y Préstamos 1.1</h1>
     <p>Hecho por Yo merengues</p>
-    <form action="/buscar" method="GET">
-        <label for="q">Nombre o clave:</label>
-        <input type="text" name="q" id="q" placeholder="Ej: t001 o Taladro">
-        <input type="submit" value="Buscar">
-    </form>
+
+    <!-- Buscador de herramientas -->
+    <section>
+        <h2>🔧 Buscar Herramientas</h2>
+        <form action="/buscar" method="GET">
+            <label for="q">Nombre o clave:</label>
+            <input type="text" name="q" id="q" placeholder="Ej: t001 o Taladro">
+            <input type="submit" value="Buscar herramienta">
+        </form>
+    </section>
+
+    <hr>
+
+    <!-- Buscador de préstamos -->
+    <section>
+        <h2>📄 Buscar Préstamos</h2>
+        <form action="/buscar_prestamos" method="GET">
+            <p>
+                <label for="id">ID del préstamo:</label>
+                <input type="number" name="id" id="id" placeholder="Ej: 1">
+            </p>
+            <p>
+                <label for="nombre">Nombre del alumno:</label>
+                <input type="text" name="nombre" id="nombre" placeholder="Ej: Juan Pérez">
+            </p>
+            <p>
+                <label for="herramienta">Herramienta:</label>
+                <input type="text" name="herramienta" id="herramienta" placeholder="Ej: Martillo">
+            </p>
+            <p>
+                <label for="fecha">Fecha (YYYY-MM-DD):</label>
+                <input type="text" name="fecha" id="fecha" placeholder="Ej: 2025-07-01">
+            </p>
+            <input type="submit" value="Buscar préstamo">
+        </form>
+    </section>
 </body>
 </html>
-
