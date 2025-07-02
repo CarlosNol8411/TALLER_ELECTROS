@@ -1,93 +1,73 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Unidades | Control Escolar</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/alumnos.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registro de Unidades | Control Escolar</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/alumnos.css" />
 </head>
 <body>
 <header>
-    <div class="container">
-        <div class="logo">
-            <i class="fas fa-graduation-cap"></i>
-            Control Escolar
-        </div>
-        <nav class="header-nav">
-            <a href="ControlEscolar.html"><i class="fas fa-home"></i> Inicio</a>
-            <a href="Alumnos.html"><i class="fas fa-user-graduate"></i> Alumnos</a>
-            <a href="Docente.html"><i class="fas fa-chalkboard-teacher"></i> Docentes</a>
-            <a href="materias.html"><i class="fas fa-book"></i> Materias</a>
-            <a href="asignacion.html"><i class="fas fa-tasks"></i> Asignación materias</a>
-            <a href="RegistroUnidad.html" class="active"><i class="fas fa-tasks"></i> Asignación unidad</a>
-            <a href="reportes.html"><i class="fas fa-chart-bar"></i> Reportes</a>
-        </nav>
-    </div>
+  <div class="container">
+    <div class="logo"><i class="fas fa-graduation-cap"></i> Control Escolar</div>
+    <nav class="header-nav">
+      <a href="ControlEscolar.html"><i class="fas fa-home"></i> Inicio</a>
+      <a href="Alumnos.html"><i class="fas fa-user-graduate"></i> Alumnos</a>
+      <a href="Docente.html"><i class="fas fa-chalkboard-teacher"></i> Docentes</a>
+      <a href="materias.html"><i class="fas fa-book"></i> Materias</a>
+      <a href="asignacion.html"><i class="fas fa-tasks"></i> Asignación materias</a>
+      <a href="RegistroUnidad.html" class="active"><i class="fas fa-tasks"></i> Asignación unidad</a>
+      <a href="reportes.html"><i class="fas fa-chart-bar"></i> Reportes</a>
+    </nav>
+  </div>
 </header>
 
 <main class="container">
-    <div class="tabs">
-        <div class="tab active" data-tab="register">Registro de unidades</div>
-    </div>
+  <div class="tabs">
+    <div class="tab active" data-tab="register">Registro de unidades</div>
+  </div>
 
-    <!-- Formulario -->
-    <div id="register" class="tab-content active">
-        <div class="form-container">
-            <h2 class="form-title">
-                <i class="fas fa-user-plus"></i>
-                Registro de unidades
-            </h2>
-            <form id="unitForm">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="docenteSelect">Docente encargado</label>
-                        <select id="docenteSelect" class="form-control" required>
-                            <option value="" hidden>Seleccione un docente</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="materiaSelect">Materia</label>
-                        <select id="materiaSelect" class="form-control" required>
-                            <option value="" hidden>Seleccione una materia</option>
-                        </select>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-block" style="margin-top: 1.5rem;">
-                    <i class="fas fa-search"></i>
-                    Buscar
-                </button>
-            </form>
+  <div id="register" class="tab-content active">
+    <div class="form-container">
+      <h2 class="form-title"><i class="fas fa-user-plus"></i> Registro de unidades</h2>
+      <form id="unitForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="docenteSelect">Docente encargado</label>
+            <select id="docenteSelect" class="form-control" required>
+              <option value="" hidden>Seleccione un docente</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="materiaSelect">Materia</label>
+            <select id="materiaSelect" class="form-control" required>
+              <option value="" hidden>Seleccione una materia</option>
+            </select>
+          </div>
         </div>
+        <button type="submit" class="btn btn-block" style="margin-top: 1.5rem;">
+          <i class="fas fa-search"></i> Buscar
+        </button>
+      </form>
     </div>
+  </div>
 
-    <!-- Tabla -->
-    <div id="list" class="tab-content">
-        <div class="table-container">
-            <h2 class="form-title">
-                <i class="fas fa-list"></i>
-                Resultados
-            </h2>
-            <div style="overflow-x:auto;">
-                <table id="unitTable" class="table">
-                    <thead>
-                        <tr>
-                            <th>Materia</th>
-                            <th>Alumno</th>
-                            <th>Unidad 1</th>
-                            <th>Unidad 2</th>
-                            <th>Unidad 3</th>
-                            <th>Unidad 4</th>
-                            <th>Unidad 5</th>
-                            <th>Unidad 6</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </div>
+  <div id="list" class="tab-content">
+    <div class="table-container">
+      <h2 class="form-title"><i class="fas fa-list"></i> Resultados</h2>
+      <div style="overflow-x:auto;">
+        <table id="unitTable" class="table">
+          <thead><tr></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <button id="guardarCambios" class="btn btn-success" style="margin-top: 1rem;">
+        <i class="fas fa-save"></i> Guardar Cambios
+      </button>
     </div>
+  </div>
 </main>
 
 <script src="js/registroUnidades.js"></script>
