@@ -69,6 +69,7 @@
             </div>
             
             <!-- Panel de asignación grupal (visible por defecto) -->
+            <!-- Panel de asignación grupal -->
             <div id="groupAssignment" class="assignment-panel active">
                 <h2><i class="fas fa-users"></i> Asignación por Grupo</h2>
                 
@@ -77,58 +78,38 @@
                         <h3>Grupos Disponibles</h3>
                         <div class="scroll-container">
                             <div class="group-card">
-                                <select name="Grupos" id="Grupos" class="form-control">
-                                    <option value="">Selecciona un el grupo</option>
-                                    <option value="">ISC-301</option>
-                                    <option value="">IE-300</option>
+                                <select name="Grupos" id="groupSelect" class="form-control">
+                                    <option value="">Selecciona el grupo</option>
                                 </select>
                             </div>
-                            
-                            <!-- Más grupos -->
                         </div>
                     </div>
                     
                     <div class="assignment-details">
-                        <h3>Asignar Materia a: <span id="selectedGroup">ISC-501</span></h3>
                         
                         <div class="subject-teacher">
-                            <div class="form-group">
-                                <label>Materia:</label>
-                                <select class="form-control" >
-                                    <option>Seleccione una materia</option>
-                                </select>
-                            </div>
-                            
-
+                        <div class="form-group">
+                            <label for="materiaSelect">Materia:</label>
+                            <select class="form-control" id="materiaSelect">
+                                <option value="">Seleccione una materia</option>
+                            </select>
                         </div>
+                    </div>
                         
                         <div class="student-exceptions">
                             <h4><i class="fas fa-user-minus"></i> Excepciones (alumnos irregulares)</h4>
                             <div class="exception-list">
-                                <div class="exception-item">
-                                    <label>
-                                        <input type="checkbox">
-                                        <span>Juan Pérez López (19181005)</span>
-                                        <small class="reason">Ya cursó esta materia</small>
-                                    </label>
-                                </div>
-                                <div class="exception-item">
-                                    <label>
-                                        <input type="checkbox">
-                                        <span>Ana Martínez Sánchez (19181012)</span>
-                                        <small class="reason">Materia no requerida</small>
-                                    </label>
-                                </div>
-                                <!-- Más excepciones -->
+                                <!-- Aquí irán los elementos de los alumnos irregulares -->
                             </div>
                         </div>
                         
-                        <button class="btn btn-block confirm-btn">
+                        <button class="btn btn-block confirm-btn" id="confirmAssignmentBtn">
                             <i class="fas fa-check-circle"></i> Confirmar Asignación
                         </button>
                     </div>
                 </div>
             </div>
+
             
             <!-- Panel de asignación individual -->
             <div id="individualAssignment" class="assignment-panel">
@@ -214,6 +195,8 @@
 
     <script src="js/main.js"></script>
     <script src="js/asignacion.js"></script>
+    <script src="js/asignacion_grupal.js"></script>
     <script src="js/Alumnos_Asignacion.js"></script>
+
 </body>
 </html>
