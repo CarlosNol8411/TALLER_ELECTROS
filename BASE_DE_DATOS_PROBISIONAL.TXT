@@ -77,3 +77,39 @@ CREATE TABLE calificaciones (
     FOREIGN KEY (id_materia) REFERENCES materias(id_materia) ON DELETE CASCADE,
     UNIQUE KEY (id_alumno, id_materia, unidad)
 );
+
+-- Tabla que relaciona Alumnos con Materias, incluyendo el estado de regular o irregular
+CREATE TABLE asignacion_materias (
+    id_asignacion INT AUTO_INCREMENT PRIMARY KEY,
+    numero_control VARCHAR(20) NOT NULL,    -- Número de control del alumno
+    id_materia INT NOT NULL,                -- ID de la materia asignada
+    estado ENUM('regular', 'irregular') NOT NULL,  -- Estado de la asignación (regular o irregular)
+    fecha_asignacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Fecha de asignación
+    FOREIGN KEY (numero_control) REFERENCES alumnos(numero_control) ON DELETE CASCADE,
+    FOREIGN KEY (id_materia) REFERENCES materias(id_materia) ON DELETE CASCADE,
+    UNIQUE KEY (numero_control, id_materia)  -- Asegura que un alumno no pueda estar asignado dos veces a la misma materia
+);
+
+-- Tabla de Grupos
+CREATE TABLE grupos (
+    id_grupo INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,            -- Nombre del grupo (Ej. Grupo 1A)
+    id_semestre INT NOT NULL,               -- Relación con el semestre
+    id_carrera INT NOT NULL,                -- Relación con la carrera
+    FOREIGN KEY (id_semestre) REFERENCES semestres(id_semestre),
+    FOREIGN KEY (id_carrera) REFERENCES carreras(id_carrera)
+);
+
+-- Tabla que relaciona Grupos con Materias
+CREATE TABLE asignacion_grupal_materias (
+    id_asignacion_grupal INT AUTO_INCREMENT PRIMARY KEY,
+    id_grupo INT NOT NULL,                  -- ID del grupo
+    id_materia INT NOT NULL,                -- ID de la materia
+    fecha_asignacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Fecha de asignación
+    FOREIGN KEY (id_grupo) REFERENCES grupos(id_grupo) ON DELETE CASCADE,
+    FOREIGN KEY (id_materia) REFERENCES materias(id_materia) ON DELETE CASCADE,
+    UNIQUE KEY (id_grupo, id_materia)      -- Asegura que un grupo no tenga la misma materia asignada dos veces
+);
+
+
+

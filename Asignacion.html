@@ -6,6 +6,8 @@
     <title>Asignación de Materias | Control Escolar</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.26/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.26/dist/sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="css/asignacion.css">
 </head>
 <body>
@@ -92,10 +94,8 @@
                         <div class="subject-teacher">
                             <div class="form-group">
                                 <label>Materia:</label>
-                                <select class="form-control">
+                                <select class="form-control" >
                                     <option>Seleccione una materia</option>
-                                    <option>Matemáticas Avanzadas</option>
-                                    <option>Programación Orientada a Objetos</option>
                                 </select>
                             </div>
                             
@@ -139,11 +139,11 @@
                     <div class="student-search">
                         <div class="search-box">
                             <i class="fas fa-search"></i>
-                            <input type="text" class="form-control" placeholder="Buscar alumno...">
+                            <input type="text" class="form-control" placeholder="Buscar alumno..." maxlength="9">
                         </div>
                         <br>
                         <div class="student-list">
-                            <div class="student-card selected">
+                            <!-- <div class="student-card selected">
                                 <h4>Juan Pérez López</h4>
                                 <p>19181005 | 5° Semestre ISC</p>
                                 <p class="status"><i class="fas fa-check-circle"></i> Seleccionado</p>
@@ -153,8 +153,8 @@
                                 <h4>María García Martínez</h4>
                                 <p>19181012 | 5° Semestre ISC</p>
                                 <p class="status">Haz click para seleccionar</p>
-                            </div>
-                            <!-- Más alumnos -->
+                            </div> -->
+
                         </div>
                     </div>
                     
@@ -164,10 +164,8 @@
                         <div class="subject-teacher">
                             <div class="form-group">
                                 <label>Materia:</label>
-                                <select class="form-control">
+                                <select class="form-control" id="materiaSelect">
                                     <option>Seleccione una materia</option>
-                                    <option>Matemáticas Avanzadas</option>
-                                    <option>Programación Orientada a Objetos</option>
                                 </select>
                             </div>
                             
@@ -201,7 +199,7 @@
                             </ul>
                         </div>
                         
-                        <button class="btn btn-block confirm-btn">
+                        <button id="confirmAssignmentBtn" class="btn btn-block ">
                             <i class="fas fa-check-circle"></i> Confirmar Asignación
                         </button>
                     </div>
@@ -216,5 +214,6 @@
 
     <script src="js/main.js"></script>
     <script src="js/asignacion.js"></script>
+    <script src="js/Alumnos_Asignacion.js"></script>
 </body>
 </html>
